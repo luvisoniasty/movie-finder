@@ -2,7 +2,12 @@ import { FETCH_GENRES, FETCH_MOVIES, FETCH_MOVIE_DETAILS, FETCH_MOVIES_BY_TITLE 
 
 const initialState = {
     genreItems: [],
-    movieItems: [],
+    movieItems: {
+        type: 'all',
+        page: 1,
+        pages: 1,
+        movies: []
+    },
     movieItem: {
         details: {},
         similar: []

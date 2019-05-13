@@ -8,11 +8,13 @@ class Movie extends React.Component {
     componentDidMount() {
         this.props.fetchMovieDetails(this.props.match.params.id);
     }
+
     componentDidUpdate(prevProps) {
-        if(prevProps.match.params.id !== this.props.match.params.id){
+        if(prevProps.match.params.id !== this.props.match.params.id) {
             this.props.fetchMovieDetails(this.props.match.params.id);
         }
-      }
+    }
+
     render() {
         const similarMovies = this.props.movie.similar.map(movie => (
             <div key={movie.id}>
@@ -37,7 +39,6 @@ class Movie extends React.Component {
 Movie.propTypes = {
     fetchMovieDetails: PropTypes.func.isRequired,
     movie: PropTypes.object.isRequired
-
 }
 
 const mapStateToProps = state => ({

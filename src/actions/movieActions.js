@@ -10,11 +10,16 @@ export const fetchGenres = (language = 'en-US') => dispatch => {
     );
 };
 
-export const fetchMovies = (page = 1, minRating = 0, maxRating = 10, minYear = 1900, maxYear = 2100, language = 'en-US') => dispatch => {
+export const fetchMovies = (page = 1, type = 'all', minRating = 0, maxRating = 10, minYear = 1900, maxYear = new Date().getFullYear(), language = 'en-US') => dispatch => {
     tmdb.getMovies(page, minRating, maxRating, minYear, maxYear, language).then(res => 
         dispatch({
             type: FETCH_MOVIES,
-            payload: res.data.results
+            payload: {
+                type: type,
+                page: res.data.page,
+                pages: res.data.total_pages,
+                movies: res.data.results
+            }
         })
     );
 };
@@ -33,21 +38,16 @@ export const fetchMovieDetails = (id, language = 'en-US') => dispatch => {
     );
 };
 
-export const clearMovieDetails = () => dispatch => {
-    dispatch({
-        type: FETCH_MOVIE_DETAILS,
-        payload: {
-            details: {},
-            similar: []
-        }
-    });
-}
-
-export const fetchMoviesByTitle = (query, page = 1) => dispatch => {
+export const fetchMoviesByTitle = (query, page = 1, type = 'byTitle') => dispatch => {
     tmdb.getMoviesByTitle(query, page).then(res => 
         dispatch({
             type: FETCH_MOVIES_BY_TITLE,
-            payload: res.data.results
+            payload: {
+                type: type,
+                page: res.data.page,
+                pages: res.data.total_pages,
+                movies: res.data.results
+            }
         })
     );
 };
