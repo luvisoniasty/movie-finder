@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filterYears, filterRating } from '../../actions/filtersActions';
+import { fetchGenres, filterYears, filterRating, toggleGenre, checkAllGenres, uncheckAllGenres } from '../../actions/filtersActions';
 import { fetchMovies } from '../../actions/movieActions';
 import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
 
 class Filters extends React.Component {
+    componentDidMount() {
+        this.props.fetchGenres();
+    }
+
     filterMovies = () => {
-        const { year, rating } = this.props;
-        this.props.fetchMovies(1, 'filtered' ,rating.min, rating.max, year.min, year.max);
+        const { year, rating, genres } = this.props;
+        const withoutGenres = genres.filter(g => g.checked === false).map(genre => genre.id).reduce((acc, cur) => `${acc},${cur}`, '');
+        this.props.fetchMovies(1, 'filtered' ,rating.min, rating.max, year.min, year.max, withoutGenres);
     }
 
     render() {
+        const genres = this.props.genres.map(genre => <button key={genre.id} onClick={() => this.props.toggleGenre(genre.id)}>{genre.name}</button>)
         return (
             <div>
                 <label htmlFor="yearRangeSlider">Year</label>
@@ -31,6 +37,11 @@ class Filters extends React.Component {
                 value={this.props.rating}
                 onChange={rating => this.props.filterRating(rating)} />
 
+                <h3>Genres</h3>
+                <button onClick={this.props.checkAllGenres}>Check all</button>
+                <button onClick={this.props.uncheckAllGenres}>Uncheck all</button>
+                {genres}
+
                 <button type="button" onClick={this.filterMovies}>
                     Search
                 </button>
@@ -39,17 +50,23 @@ class Filters extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
+Filters.propTypes = {
+    fetchGenres: PropTypes.func.isRequired,
     filterYears: PropTypes.func.isRequired,
     filterRating: PropTypes.func.isRequired,
+    toggleGenre: PropTypes.func.isRequired,
+    checkAllGenres: PropTypes.func.isRequired,
+    uncheckAllGenres: PropTypes.func.isRequired,
     fetchMovies: PropTypes.func.isRequired,
-    year: state.filters.year,
-    rating: state.filters.rating
-});
-
-Filters.propTypes = {
+    genres: PropTypes.array.isRequired,
     year: PropTypes.object.isRequired,
     rating: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, { filterYears, filterRating, fetchMovies })(Filters);
+const mapStateToProps = state => ({
+    genres: state.filters.genreItems,
+    year: state.filters.year,
+    rating: state.filters.rating
+});
+
+export default connect(mapStateToProps, { fetchGenres, filterYears, filterRating, toggleGenre, checkAllGenres, uncheckAllGenres, fetchMovies })(Filters);

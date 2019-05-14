@@ -22,15 +22,15 @@ class Header extends React.Component {
     }
 };
 
-const mapStateToProps = state => ({
+Header.propTypes = {
     filterQuery: PropTypes.func.isRequired,
     fetchMoviesByTitle: PropTypes.func.isRequired,
     fetchMovies: PropTypes.func.isRequired,
-    query: state.filters.query,
-});
-
-Header.propTypes = {
     query: PropTypes.string.isRequired
 }
+
+const mapStateToProps = state => ({
+    query: state.filters.query,
+});
 
 export default connect(mapStateToProps, { filterQuery, fetchMovies, fetchMoviesByTitle })(Header);

@@ -1,7 +1,6 @@
-import { FETCH_GENRES, FETCH_MOVIES, FETCH_MOVIE_DETAILS, FETCH_MOVIES_BY_TITLE } from '../actions/types';
+import { FETCH_MOVIES, FETCH_MOVIE_DETAILS, FETCH_MOVIES_BY_TITLE } from '../actions/types';
 
 const initialState = {
-    genreItems: [],
     movieItems: {
         type: 'all',
         page: 1,
@@ -16,11 +15,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case FETCH_GENRES:
-            return {
-                ...state,
-                genreItems: action.payload
-            }
         case FETCH_MOVIES:
             return {
                 ...state,
