@@ -31,12 +31,9 @@ export default (state = initialState, action) => {
                 rating: action.payload
             }
         case TOGGLE_GENRE: 
-            const arrayId = state.genreItems.findIndex(genre => genre.id === action.payload);
-            const newGenreItems = state.genreItems;
-            newGenreItems[arrayId].checked = !newGenreItems[arrayId].checked
             return {
                 ...state,
-                genreItems: newGenreItems
+                genreItems: action.payload
             }
         case CHECK_ALL_GENRES:
             return {

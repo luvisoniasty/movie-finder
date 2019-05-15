@@ -1,5 +1,6 @@
 import { FETCH_GENRES, FILTER_YEARS, FILTER_RATING, TOGGLE_GENRE, CHECK_ALL_GENRES, UNCHECK_ALL_GENRES, FILTER_QUERY } from '../actions/types';
 import * as tmdb from '../api/tmdb';
+import store from '../store';
 
 export const fetchGenres = (language = 'en-US') => dispatch => {
     tmdb.getGenres(language).then(res => 
@@ -27,9 +28,12 @@ export const filterRating = (ratings) => dispatch => {
 };
 
 export const toggleGenre = (id) => dispatch => {
+    const genreItems = [...store.getState().filters.genreItems];
+    const arrayId = genreItems.findIndex(genre => genre.id === id);
+    genreItems[arrayId].checked = !genreItems[arrayId].checked;
     dispatch({
         type: TOGGLE_GENRE,
-        payload: id
+        payload: genreItems
     })
 }
 
