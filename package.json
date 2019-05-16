@@ -5,6 +5,7 @@
   "homepage": "https://luvisoniasty.github.io/movie-finder",
   "dependencies": {
     "axios": "^0.18.0",
+    "gh-pages": "^2.0.1",
     "prop-types": "^15.7.2",
     "rc-slider": "^8.6.11",
     "react": "^16.8.6",
