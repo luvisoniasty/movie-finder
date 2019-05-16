@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     color: ${theme.white};
     margin: 0;
     background: ${theme.blue};
+    letter-spacing: 1.02px;
   }
 `;
 

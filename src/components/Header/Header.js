@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { filterQuery } from '../../actions/filtersActions';
 import { fetchMovies, fetchMoviesByTitle } from '../../actions/movieActions';
@@ -86,6 +86,8 @@ const SearchInput = styled.input`
 
 class Header extends React.Component {
     searchByTitle = (e) => {
+        if(this.props.location.pathname !== '/')
+        this.props.history.push('/');
         const query = e.target.value;
         this.props.filterQuery(query);
         query ? this.props.fetchMoviesByTitle(query) : this.props.fetchMovies()
@@ -110,11 +112,14 @@ Header.propTypes = {
     filterQuery: PropTypes.func.isRequired,
     fetchMoviesByTitle: PropTypes.func.isRequired,
     fetchMovies: PropTypes.func.isRequired,
-    query: PropTypes.string.isRequired
+    query: PropTypes.string.isRequired,
+    history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+    })
 }
 
 const mapStateToProps = state => ({
     query: state.filters.query,
 });
 
-export default connect(mapStateToProps, { filterQuery, fetchMovies, fetchMoviesByTitle })(Header);
+export default connect(mapStateToProps, { filterQuery, fetchMovies, fetchMoviesByTitle })(withRouter(Header));

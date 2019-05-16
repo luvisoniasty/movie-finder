@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../assets/styles/theme';
+import defaultImage from '../../assets/images/posterError.png';
 
 const StyledElement = styled.li`
     list-style: none;
@@ -51,14 +52,25 @@ const StyledTitleLink = styled(Link)`
 
 
 class MovieBox extends React.Component {
+    defaultImageSrc(ev){
+        ev.target.src = defaultImage;
+    }
     render() {
     const { id, title, vote_average, release_date, poster_path } = this.props.movie;
     const { inRow } = this.props;
-    const imageUrl = `https://image.tmdb.org/t/p/w342/${poster_path}`;
-    const releaseYear = release_date.substr(0,4);
+    let releaseYear, imageUrl;
+    if(poster_path)
+    imageUrl = `https://image.tmdb.org/t/p/w342/${poster_path}`;
+    if(release_date)
+    releaseYear = release_date.substr(0,4);
         return (
             <StyledElement key={id} rating={vote_average} inRow={inRow}>
-                <Link to={"/movie/"+id}><StyledImage src={imageUrl} alt={title}/></Link>
+                <Link to={"/movie/"+id}>
+                {imageUrl ? 
+                <StyledImage src={imageUrl} onError={this.defaultImageSrc} alt={title}/>
+                : <StyledImage src={defaultImage} alt={title}/>
+                }
+                </Link>
                 <StyledYear>{releaseYear}</StyledYear>
                 <StyledTitleLink to={"/movie/"+id}>{title}</StyledTitleLink>
             </StyledElement>
