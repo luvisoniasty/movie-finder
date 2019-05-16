@@ -25,6 +25,7 @@ const StyledList = styled.ul`
 class Movie extends React.Component {
     componentDidMount() {
         this.props.fetchMovieDetails(this.props.match.params.id);
+        window.scrollTo(0, 0);
     }
 
     componentDidUpdate(prevProps) {
