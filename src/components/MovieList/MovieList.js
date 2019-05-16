@@ -8,6 +8,10 @@ import theme from '../../assets/styles/theme';
 import MovieBox from './MovieBox';
 import Button from '../Button/Button';
 
+const FiltersContainer = styled.div`
+    padding-bottom: 15px;
+`;
+
 const FiltersButton = styled(Button)`
     display: ${props => props.hidden ? 'block' : 'none'}
     width: 50%;
@@ -48,6 +52,19 @@ const StyledList = styled.ul`
     }
 `;
 
+const PageButtons = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 15px;
+`;
+
+const PageButton = styled(Button)`
+    background: ${theme.green};
+    border: 1px solid ${theme.green};
+    color: ${theme.darkblue};
+    margin-left: 15px;
+`;
+
 class MovieList extends React.Component {
     constructor(props){
         super(props);
@@ -83,19 +100,23 @@ class MovieList extends React.Component {
 
     render() {
         const { type, page, pages } = this.props.movieItems;
-        const movieItems = this.props.movieItems.movies.map(movie => <MovieBox key={movie.id} movie={movie}/>);
+        const movieItems = this.props.movieItems.movies.map(movie => <MovieBox key={movie.id} movie={movie} inRow={4}/>);
         return (
             <Container>
                 {!(type === 'byTitle') ?
-                <div><Filters hidden={this.state.hidden} toggleFilters={this.toggleFilters}/>
-                <FiltersButton hidden={this.state.hidden} onClick={this.toggleFilters}><i className="fas fa-sliders-h"></i> Filter movies</FiltersButton></div> : ''
+                <FiltersContainer>
+                    <Filters hidden={this.state.hidden} toggleFilters={this.toggleFilters}/>
+                    <FiltersButton hidden={this.state.hidden} onClick={this.toggleFilters}><i className="fas fa-sliders-h"></i> Filter movies</FiltersButton>
+                </FiltersContainer> : ''
                 }
                 <div>
                     <StyledList>
                         {movieItems}
                     </StyledList>
-                    {(page - 1 > 0) ? <Button onClick={() => {this.changePage(page - 1)}}>Prev</Button> : ''}
-                    {(page + 1 <= pages) ? <Button onClick={() => {this.changePage(page + 1)}}>Next</Button> : ''}
+                    <PageButtons>
+                        {(page - 1 > 0) ? <PageButton onClick={() => {this.changePage(page - 1)}}>Previous page</PageButton> : ''}
+                        {(page + 1 <= pages) ? <PageButton onClick={() => {this.changePage(page + 1)}}>Next page</PageButton> : ''}
+                    </PageButtons>
                 </div>
             </Container>
         );

@@ -8,7 +8,7 @@ const StyledElement = styled.li`
     list-style: none;
     width: 100%;
     margin-bottom: 20px;
-    max-width: 384px;
+    max-width: 342px;
     position: relative;
     ::after {
         content: '${props => props.rating}';
@@ -28,7 +28,7 @@ const StyledElement = styled.li`
         }
     }
     @media (min-width: 1024px) {
-        width: 23%;
+        width: ${props => props.inRow === 4 ? '23%' : '19%'};
     }
 `;
 
@@ -53,10 +53,11 @@ const StyledTitleLink = styled(Link)`
 class MovieBox extends React.Component {
     render() {
     const { id, title, vote_average, release_date, poster_path } = this.props.movie;
+    const { inRow } = this.props;
     const imageUrl = `https://image.tmdb.org/t/p/w342/${poster_path}`;
     const releaseYear = release_date.substr(0,4);
         return (
-            <StyledElement key={id} rating={vote_average}>
+            <StyledElement key={id} rating={vote_average} inRow={inRow}>
                 <Link to={"/movie/"+id}><StyledImage src={imageUrl} alt={title}/></Link>
                 <StyledYear>{releaseYear}</StyledYear>
                 <StyledTitleLink to={"/movie/"+id}>{title}</StyledTitleLink>
@@ -67,6 +68,7 @@ class MovieBox extends React.Component {
 
 MovieBox.propTypes = {
     movie: PropTypes.object.isRequired,
+    inRow: PropTypes.number.isRequired
 }
 
 
