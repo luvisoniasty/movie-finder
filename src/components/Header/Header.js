@@ -48,7 +48,7 @@ const StyledLink = styled(Link)`
     :after {
         content: '.';
         color: ${theme.green};
-        font-size: ${theme.font.size.extrabig}
+        font-size: ${theme.font.size.extrabig};
         line-height: 5px;
     }
     @media (min-width: 1024px) {
@@ -68,8 +68,8 @@ const SearchInput = styled.input`
     background: ${theme.darkblue};
     color: ${theme.gray};
     border: 2px solid ${theme.darkblue};
-    font-size: ${theme.font.size.normal};
-    font-family ${theme.font.family.montserrat};
+    font-size: ${theme.font.size.snormal};
+    font-family: ${theme.font.family.montserrat};
     font-style: italic;
     text-align: center;
     padding: 5px;
@@ -86,21 +86,35 @@ const SearchInput = styled.input`
 
 class Header extends React.Component {
     searchByTitle = (e) => {
-        if(this.props.location.pathname !== '/')
-        this.props.history.push('/');
+        var promise = new Promise((resolve) => {
+            if(this.props.location.pathname !== '/')
+            this.props.history.push('/');
+            resolve();
+          });
+        
         const query = e.target.value;
-        this.props.filterQuery(query);
-        query ? this.props.fetchMoviesByTitle(query) : this.props.fetchMovies()
+
+        promise.then( () => {
+                this.props.filterQuery(query);
+                query ? this.props.fetchMoviesByTitle(query) : this.props.fetchMovies();
+            }
+        );
     }
+
+    resetSearchByTitle = () => {
+        this.props.filterQuery('');
+        this.props.fetchMovies()
+    }
+
 
     render() {
         return (
             <Navbar>
                 <Wrapper>
-                    <StyledLink to="/">movfinder</StyledLink>
+                    <StyledLink to="/" onClick={this.resetSearchByTitle}>movfinder</StyledLink>
                     <SearchBox>
                         <i className="fas fa-search"></i>
-                        <SearchInput type="text" placeholder="Search movies by title here..." onChange={this.searchByTitle}/>
+                        <SearchInput type="text" placeholder="Search movies by title here..." value={this.props.query} onChange={this.searchByTitle}/>
                     </SearchBox>
                 </Wrapper>
             </Navbar>

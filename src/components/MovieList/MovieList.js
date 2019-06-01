@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchMovies, fetchMoviesByTitle } from '../../actions/movieActions';
@@ -13,7 +14,7 @@ const FiltersContainer = styled.div`
 `;
 
 const FiltersButton = styled(Button)`
-    display: ${props => props.hidden ? 'block' : 'none'}
+    display: ${props => props.hidden ? 'block' : 'none'};
     width: 50%;
     margin: 0 auto;
     font-weight: ${theme.font.weight.bold};
@@ -47,7 +48,7 @@ const StyledList = styled.ul`
     @media (min-width: 1024px) {
         flex-direction: row;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: space-between;;
         align-items: flex-start;
     }
 `;
@@ -103,6 +104,9 @@ class MovieList extends React.Component {
         const movieItems = this.props.movieItems.movies.map(movie => <MovieBox key={movie.id} movie={movie} inRow={4}/>);
         return (
             <Container>
+                <Helmet>
+                    <title>Home - Movfinder</title>
+                </Helmet>
                 {!(type === 'byTitle') ?
                 <FiltersContainer>
                     <Filters hidden={this.state.hidden} toggleFilters={this.toggleFilters}/>

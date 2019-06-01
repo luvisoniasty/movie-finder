@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -40,6 +41,10 @@ class Movie extends React.Component {
         const { details } = this.props.movie;
         return (
             <div>
+                <Helmet>
+                    <title>{`${details.title}`} - Movfinder</title>
+                    <description>{`${details.overview}`}</description>
+                </Helmet>
                 <MovieDetails details={details} />
                 {similarMovies.length ? 
                 <>

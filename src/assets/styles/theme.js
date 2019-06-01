@@ -11,6 +11,7 @@ const theme = {
         extrasmall: '1rem',
         smaller: '1.15rem',
         small: '1.3rem',
+        snormal: '1.5rem',
         normal: '1.6rem',
         big: '2rem',
         bigger: '2.4rem',

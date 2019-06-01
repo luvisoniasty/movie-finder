@@ -4,7 +4,7 @@ import theme from '../../assets/styles/theme';
 
 const StyledButton = styled.button`
     padding: 8px 16px;
-    background: none
+    background: none;
     color: ${theme.green};
     border: 1px solid ${theme.gray};
     border-radius: 1px;
